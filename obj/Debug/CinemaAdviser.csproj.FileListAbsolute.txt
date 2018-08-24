@@ -1,0 +1,6 @@
+D:\Projects\C#\HellishWorld\CinemaAdviser\bin\Debug\CinemaAdviser.exe.config
+D:\Projects\C#\HellishWorld\CinemaAdviser\bin\Debug\CinemaAdviser.exe
+D:\Projects\C#\HellishWorld\CinemaAdviser\bin\Debug\CinemaAdviser.pdb
+D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.csprojResolveAssemblyReference.cache
+D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.exe
+D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.pdb
