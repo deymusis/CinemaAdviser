@@ -4,3 +4,5 @@ D:\Projects\C#\HellishWorld\CinemaAdviser\bin\Debug\CinemaAdviser.pdb
 D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.csprojResolveAssemblyReference.cache
 D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.exe
 D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.pdb
+D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.csproj.GenerateResource.Cache
+D:\Projects\C#\HellishWorld\CinemaAdviser\obj\Debug\CinemaAdviser.Resources.resources
