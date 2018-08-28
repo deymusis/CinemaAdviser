@@ -18,8 +18,6 @@ namespace CinemaAdviser
 
             String genre = "Comedy or Drama";
 
-            string[] names = { "Comedy", "Drama", "Erotic" };
-
             Console.WriteLine("What is your name?");
             String name = Console.ReadLine(); // Поле ввода для твоего имени
             Console.WriteLine("Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date);
@@ -75,6 +73,7 @@ namespace CinemaAdviser
                     Console.WriteLine("Wow! {0} - What is it? I don't know anything about it. sorry! i can't recommend anymore.", choiceOfGenre);
                     break;
             }
+ 
 
             Console.WriteLine("Enjoy your movie, {0}!", name);
             Console.ReadKey();
@@ -82,8 +81,15 @@ namespace CinemaAdviser
 
         /*Если выбрал Comedy*/
 
+        private static string[] GengeOfFilm()
+        {
+            string[] names = { "Comedy", "Drama", "Erotic" };
+            return names;
+        }
+
         private static void Comedy()
         {
+            string[] names = GengeOfFilm();
             string[] films = {"Furry Vengeance",
                               "Oz the Great and Powerful",
                               "Beethoven",
@@ -104,15 +110,15 @@ namespace CinemaAdviser
                               "Leap Year"
                              };
 
-            var genre = new Genre(null, films);
+            var genre = new Genre(names, films);
             genre.ShowFilms();
-            genre.RandomFilm();
         }
 
         /*Если выбрал Drama*/
 
         private static void Drama()
         {
+            string[] names = GengeOfFilm();
             string[] films = {"Race",
                               "Pelé: Birth of a Legend",
                               "Snowden",
@@ -128,16 +134,15 @@ namespace CinemaAdviser
                               "A Time to Kill"
                              };
 
-            var genre = new Genre(null, films);
+            var genre = new Genre(names, films);
             genre.ShowFilms();
-            genre.RandomFilm();
         }
 
         /*Если выбрал Erotic*/
 
-        public static void Erotic()
+        private static void Erotic()
         {
-
+            string[] names = { "Comedy", "Drama", "Erotic" };
             string[] films = {"Emmanuelle",
                               "Fifty shades of grey",
                               "Newness",
@@ -158,9 +163,8 @@ namespace CinemaAdviser
                               "Lucía y el sexo"
                              };
 
-            var genre = new Genre(null, films);
+            var genre = new Genre(names, films);
             genre.ShowFilms();
-            genre.RandomFilm();
         }
 
 
