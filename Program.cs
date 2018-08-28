@@ -11,33 +11,30 @@ namespace CinemaAdviser
 
         static void Main(string[] args)
         {
-                /*Программа поможет подобрать фильм, если ты уже не работаешь*/
+            /*Программа поможет подобрать фильм, если ты уже не работаешь*/
 
-                var date = DateTime.Now; // настоящее время
-                var endingHours = 19; // от этой переменной зависит просмотр фильма
+            var date = DateTime.Now; // настоящее время
+            var endingHours = 8; // от этой переменной зависит просмотр фильма
 
-                String genre = "Comedy or Drama";
+            String genre = "Comedy or Drama";
 
-                string [] names = {"Comedy", "Drama", "Erotic"};
+            string[] names = { "Comedy", "Drama", "Erotic" };
 
-                
-            
+            Console.WriteLine("What is your name?");
+            String name = Console.ReadLine(); // Поле ввода для твоего имени
+            Console.WriteLine("Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date);
 
-            Console.WriteLine( Resources.Name );
-                String name = Console.ReadLine(); // Поле ввода для твоего имени
-            Console.WriteLine( "Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date );
-
-                if (date.Hour >= endingHours)
-                {
-                    Console.WriteLine("It's time to watch film!"); 
-                    TimeToWatch(genre, name);
-                }
-                else
-                {
-                    Console.WriteLine("You still must work!");
-                    Console.WriteLine("Have a good day at work, {0}!", name);
-                    Console.ReadKey();
-                }
+            if (date.Hour >= endingHours)
+            {
+                Console.WriteLine("It's time to watch film!");
+                TimeToWatch(genre, name);
+            }
+            else
+            {
+                Console.WriteLine("You still must work!");
+                Console.WriteLine("Have a good day at work, {0}!", name);
+                Console.ReadKey();
+            }
         }
 
         /*Пора смотреть фильм!*/
@@ -49,42 +46,41 @@ namespace CinemaAdviser
             Console.Clear();
             Console.WriteLine("You could watch... Ehhh...");
 
-                switch (choiceOfGenre) {
-                    case "Comedy":
-                        Comedy();
-                        break;
-                    case "Drama":
-                        Drama();
-                        break;
-                    case "Erotic":
-                        Console.WriteLine("How old are you?");
-                        String yearString = Console.ReadLine();
-                        int years = Int32.Parse(yearString);
-                            if (years < 18)
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Unfortunately, it's only after the age of 18!");
-                                Console.WriteLine("Come back in " + (18 - years) + " years.");
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                Console.WriteLine("These are going to be so passionate films!");
-                                Erotic();
-                            }
-                          break;
-                          default:
-                        Console.WriteLine("Wow! {0} - What is it? I don't know anything about it. sorry! i can't recommend anymore.", choiceOfGenre);
-                        break;
-                }
+            switch (choiceOfGenre)
+            {
+                case "Comedy":
+                    Comedy();
+                    break;
+                case "Drama":
+                    Drama();
+                    break;
+                case "Erotic":
+                    Console.WriteLine("How old are you?");
+                    String yearString = Console.ReadLine();
+                    int years = Int32.Parse(yearString);
+                    if (years < 18)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Unfortunately, it's only after the age of 18!");
+                        Console.WriteLine("Come back in " + (18 - years) + " years.");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("These are going to be so passionate films!");
+                        Erotic();
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Wow! {0} - What is it? I don't know anything about it. sorry! i can't recommend anymore.", choiceOfGenre);
+                    break;
+            }
 
             Console.WriteLine("Enjoy your movie, {0}!", name);
             Console.ReadKey();
         }
 
         /*Если выбрал Comedy*/
-
-
 
         private static void Comedy()
         {
@@ -108,17 +104,13 @@ namespace CinemaAdviser
                               "Leap Year"
                              };
 
-            foreach (string i in films)
-            {
-                Console.WriteLine("* {0}", i);
-            }
-            RandomFilm(films);
+            var genre = new Genre(null, films);
+            genre.ShowFilms();
+            genre.RandomFilm();
         }
 
         /*Если выбрал Drama*/
 
-            
-            
         private static void Drama()
         {
             string[] films = {"Race",
@@ -136,18 +128,16 @@ namespace CinemaAdviser
                               "A Time to Kill"
                              };
 
-            foreach (string i in films)
-            {
-                Console.WriteLine("* {0}", i);
-            }
-            RandomFilm(films);
+            var genre = new Genre(null, films);
+            genre.ShowFilms();
+            genre.RandomFilm();
         }
 
         /*Если выбрал Erotic*/
 
         public static void Erotic()
         {
-            
+
             string[] films = {"Emmanuelle",
                               "Fifty shades of grey",
                               "Newness",
@@ -168,50 +158,45 @@ namespace CinemaAdviser
                               "Lucía y el sexo"
                              };
 
-            foreach (string i in films)
-            {
-                Console.WriteLine("* {0}", i);
-            }
-            RandomFilm(films);
+            var genre = new Genre(null, films);
+            genre.ShowFilms();
+            genre.RandomFilm();
         }
 
-        
+
 
         /*Выбирает случайный фильм*/
 
-        private static void RandomFilm(string[] names)
-        {
-            Console.WriteLine("I recommend - {0}", names[new Random().Next(0, names.Length)]);
-        }
-  
+
     }
 
-        class Genre {
-            public string[] Names { get; set; }
-            public string[] Films { get; set; }
+    class Genre
+    {
+        /*кажется эта переменная лишняя!*/
+        public string[] Names { get; set; }
+        public string[] Films { get; set; }
 
-            public Genre(string[] names, string[] films) {
-                Names = names;
-                Films = films;
-            }
-
-
-
-            /*Никак не могу применить этот метод для каждого жанра*/
-
-            public void ShowFilms()
-            {
-                foreach (string i in Films)
-                {
-                    Console.WriteLine("* {0}", i);
-                }
-                RandomFilm();
-            }
-
-            private void RandomFilm()
-            {
-                Console.WriteLine("I recommend - {0}", Films[new Random().Next(0, Films.Length)]);
-            }
+        public Genre(string[] names, string[] films)
+        {
+            Names = names;
+            Films = films;
         }
+
+
+        public void ShowFilms()
+        {
+            foreach (string i in Films)
+            {
+                Console.WriteLine("* {0}", i);
+            }
+            RandomFilm();
+        }
+
+   
+        public void RandomFilm()
+        {
+            Console.WriteLine("I recommend - {0}", Films[new Random().Next(0, Films.Length)]);
+        }
+    }
 
 }
