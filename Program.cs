@@ -14,6 +14,7 @@ namespace CinemaAdviser
 
             /*Программа поможет подобрать фильм, если ты уже не работаешь*/
 
+            /*Коллекция Dictionary - словарь хранит объекты, которые представляют пару ключ-значение*/
             var genreDict = new Dictionary<string, Genre>(StringComparer.InvariantCultureIgnoreCase) //свойство InvariantCultureIgnoreCase сравнивает строки по словам без учёта регистра
             {
                 { "Comedy", new Genre("Comedy", new string[] 
@@ -173,7 +174,7 @@ namespace CinemaAdviser
 
         /*Переопределение и полиморфизм*/
 
-        public override void Interact() //переопределяет метод в классе-наследнике
+        public override void Interact() //модификатор переопределяет метод в классе-наследнике
                                         //для расширения или изменения абстрактной или виртуальной реализации унаследованного метода, свойства, индексатора или события
                                         //новая реализация члена, унаследованного от базового класса
         {
