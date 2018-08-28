@@ -11,86 +11,13 @@ namespace CinemaAdviser
 
         static void Main(string[] args)
         {
+
             /*Программа поможет подобрать фильм, если ты уже не работаешь*/
 
-            var date = DateTime.Now; // настоящее время
-            var endingHours = 8; // от этой переменной зависит просмотр фильма
-
-            String genre = "Comedy or Drama";
-
-            Console.WriteLine("What is your name?");
-            String name = Console.ReadLine(); // Поле ввода для твоего имени
-            Console.WriteLine("Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date);
-
-            if (date.Hour >= endingHours)
+            var genreDict = new Dictionary<string, Genre>(StringComparer.InvariantCultureIgnoreCase) //свойство InvariantCultureIgnoreCase сравнивает строки по словам без учёта регистра
             {
-                Console.WriteLine("It's time to watch film!");
-                TimeToWatch(genre, name);
-            }
-            else
-            {
-                Console.WriteLine("You still must work!");
-                Console.WriteLine("Have a good day at work, {0}!", name);
-                Console.ReadKey();
-            }
-        }
-
-        /*Пора смотреть фильм!*/
-
-        public static void TimeToWatch(String genre, String name)
-        {
-            Console.WriteLine("What movie would you like to watch? \n{0}", genre);
-            String choiceOfGenre = Console.ReadLine();
-            Console.Clear();
-            Console.WriteLine("You could watch... Ehhh...");
-
-            switch (choiceOfGenre)
-            {
-                case "Comedy":
-                    Comedy();
-                    break;
-                case "Drama":
-                    Drama();
-                    break;
-                case "Erotic":
-                    Console.WriteLine("How old are you?");
-                    String yearString = Console.ReadLine();
-                    int years = Int32.Parse(yearString);
-                    if (years < 18)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Unfortunately, it's only after the age of 18!");
-                        Console.WriteLine("Come back in " + (18 - years) + " years.");
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("These are going to be so passionate films!");
-                        Erotic();
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Wow! {0} - What is it? I don't know anything about it. sorry! i can't recommend anymore.", choiceOfGenre);
-                    break;
-            }
- 
-
-            Console.WriteLine("Enjoy your movie, {0}!", name);
-            Console.ReadKey();
-        }
-
-        /*Если выбрал Comedy*/
-
-        private static string[] GengeOfFilm()
-        {
-            string[] names = { "Comedy", "Drama", "Erotic" };
-            return names;
-        }
-
-        private static void Comedy()
-        {
-            string[] names = GengeOfFilm();
-            string[] films = {"Furry Vengeance",
+                { "Comedy", new Genre("Comedy", new string[] 
+                             {"Furry Vengeance",
                               "Oz the Great and Powerful",
                               "Beethoven",
                               "Best in Show,",
@@ -108,18 +35,9 @@ namespace CinemaAdviser
                               "L’arnacoeur",
                               "Love & Friendship",
                               "Leap Year"
-                             };
-
-            var genre = new Genre(names, films);
-            genre.ShowFilms();
-        }
-
-        /*Если выбрал Drama*/
-
-        private static void Drama()
-        {
-            string[] names = GengeOfFilm();
-            string[] films = {"Race",
+                             }) },
+                { "Drama", new Genre("Drama", new string[] 
+                              {"Race",
                               "Pelé: Birth of a Legend",
                               "Snowden",
                               "Babel",
@@ -132,18 +50,10 @@ namespace CinemaAdviser
                               "The Believer",
                               "La vita è bella",
                               "A Time to Kill"
-                             };
+                             }) },
 
-            var genre = new Genre(names, films);
-            genre.ShowFilms();
-        }
-
-        /*Если выбрал Erotic*/
-
-        private static void Erotic()
-        {
-            string[] names = { "Comedy", "Drama", "Erotic" };
-            string[] films = {"Emmanuelle",
+                { "Erotic", new AdultGenre("Erotic", new string[] //тут создаём экземпляр производного класса "жанр для врослых"
+                             {"Emmanuelle",
                               "Fifty shades of grey",
                               "Newness",
                               "Kiki",
@@ -161,45 +71,128 @@ namespace CinemaAdviser
                               "Turks fruit",
                               "Salò o le 120 giornate di sodoma",
                               "Lucía y el sexo"
-                             };
+                             }) },
+            };
 
-            var genre = new Genre(names, films);
-            genre.ShowFilms();
+            var date = DateTime.Now; // настоящее время
+            var endingHours = 13; // от этой переменной зависит просмотр фильма
+
+            String genre = "Comedy or Drama";
+
+            Console.WriteLine("What is your name?");
+            String name = Console.ReadLine(); // Поле ввода для твоего имени
+            Console.WriteLine("Hello, {0}! Today is {1}, it's {2:HH:mm} now.", name, date.DayOfWeek, date);
+
+            if (date.Hour >= endingHours)
+            {
+                Console.WriteLine("It's time to watch film!");
+                TimeToWatch(genre, name, genreDict); //основная реализация просмотрщика
+            }
+            else
+            {
+                Console.WriteLine("You still must work!");
+                Console.WriteLine("Have a good day at work, {0}!", name);
+                Console.ReadKey();
+            }
         }
 
+        /*Пора смотреть фильм!*/
 
+        public static void TimeToWatch(String genre, String name, Dictionary<string, Genre> genreDict)
+        {
+            Console.WriteLine("What movie would you like to watch? \n{0}", genre);
+            String choiceOfGenre = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("You could watch... Ehhh...");
 
-        /*Выбирает случайный фильм*/
+            Genre chosen = null;
 
+            if (genreDict.TryGetValue(choiceOfGenre, out chosen)) //TryGetValue пытается получить доступ к ключам, которых нет в словаре
+            {
+                //Не зависимо от того какого типа выбранный, вызываем метод взаимодействия Interact
+                //среда сама разберётся какой код нужно исполнять
+                //В этом, в самом простом случае, заключается полиморфизм
+                //Трактует объекты в связанной манере
+                chosen.Interact();
+            }
+            else
+                Console.WriteLine("Wow! {0} - What is it? I don't know anything about it. sorry! i can't recommend anymore.", choiceOfGenre);
 
+            Console.WriteLine("Enjoy your movie, {0}!", name);
+            Console.ReadKey();
+        }
+
+        /*Жанры фильмов*/
+
+        private static string[] GengeOfFilm()
+        {
+            string[] names = { "Comedy", "Drama", "Erotic" };
+            return names;
+        }
     }
 
-    class Genre
+    class Genre //базовый внутренний класс (полиморфный интерфейс)
     {
-        /*кажется эта переменная лишняя!*/
-        public string[] Names { get; set; }
-        public string[] Films { get; set; }
+        public string[] Films { get; set; } //поле
+        public string Name { get; private set; }//рекомендация на сайте Microsoft
 
-        public Genre(string[] names, string[] films)
+        public Genre(string name, string[] films)
         {
-            Names = names;
+            Name = name;
             Films = films;
         }
 
-
-        public void ShowFilms()
+        public void ShowFilms() //метод
         {
             foreach (string i in Films)
             {
                 Console.WriteLine("* {0}", i);
             }
-            RandomFilm();
         }
 
-   
+
         public void RandomFilm()
         {
             Console.WriteLine("I recommend - {0}", Films[new Random().Next(0, Films.Length)]);
+        }
+
+        public virtual void Interact() //для изменения объявлений методов, свойств, индексаторов и событий и разрешения их переопределения в производном классе
+        {
+            ShowFilms();
+            RandomFilm();
+        }
+    }
+
+    /*Наследование*/
+
+    class AdultGenre : Genre
+    {
+        public AdultGenre(string name, string[] films)
+            : base(name, films) //для доступа к членам базового из производного класса 
+        { }
+
+        /*Переопределение и полиморфизм*/
+
+        public override void Interact() //переопределяет метод в классе-наследнике
+                                        //для расширения или изменения абстрактной или виртуальной реализации унаследованного метода, свойства, индексатора или события
+                                        //новая реализация члена, унаследованного от базового класса
+        {
+            Console.WriteLine("How old are you?");
+            String yearString = Console.ReadLine();
+            int years = Int32.Parse(yearString);
+            if (years < 18)
+            {
+                Console.Clear();
+                Console.WriteLine("Unfortunately, it's only after the age of 18!");
+                Console.WriteLine("Come back in " + (18 - years) + " years."); //от этого зависит просмотр особого жанра)))
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("These are going to be so passionate films!");
+                base.Interact();
+            }
+
         }
     }
 
