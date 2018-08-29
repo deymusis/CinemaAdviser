@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration; //пока хз как реализовать appSettings.config, получение из настроек
 
 namespace CinemaAdviser
 {
@@ -15,7 +16,7 @@ namespace CinemaAdviser
             /*Программа поможет подобрать фильм, если ты уже не работаешь*/
 
             /*Коллекция Dictionary - словарь хранит объекты, которые представляют пару ключ-значение*/
-            var genreDict = new List<Genre>()
+            var genreDict = new List<Genre>() //нужно сделать эту переменную статической переменной класса
             {
                 new Genre("Comedy", new string[] 
                              {"Furry Vengeance",
@@ -77,7 +78,7 @@ namespace CinemaAdviser
             
 
             var date = DateTime.Now; // настоящее время
-            var endingHours = 13; // от этой переменной зависит просмотр фильма
+            var endingHours = 8; // от этой переменной зависит просмотр фильма
 
             //String genre = "Comedy or Drama";
 
@@ -114,16 +115,17 @@ namespace CinemaAdviser
             Console.Clear();
             Console.WriteLine("You could watch... Ehhh...");
 
-            //Genre chosen = genreDict.FirstOrDefault(x => x.Name == choiceOfGenre );
+            Genre chosen = genreDict.FirstOrDefault(x => x.Name == choiceOfGenre ); //лямбда-функция
 
-            Genre chosen = null;
-            for (int k = 0; k < genreDict.Count(); k++)
-            {
-                if (choiceOfGenre == genreDict[k].Name) {
-                    chosen = genreDict[k];
-                }
+            //Genre chosen = null;
+            //for (int k = 0; k < genreDict.Count(); k++)
+            //{
+            //    if (choiceOfGenre == genreDict[k].Name)
+            //    {
+            //        chosen = genreDict[k];
+            //    }
 
-            }
+            //}
             if (chosen != null) //TryGetValue пытается получить доступ к ключам, которых нет в словаре
             {
                 //Не зависимо от того какого типа выбранный, вызываем метод взаимодействия Interact
@@ -149,7 +151,7 @@ namespace CinemaAdviser
         public string[] Films { get; set; } //поле
         public string Name { get; private set; }//рекомендация на сайте Microsoft
 
-        public Genre(string name, string[] films)
+        public Genre(string name, params string[] films)
         {
             Name = name;
             Films = films;
